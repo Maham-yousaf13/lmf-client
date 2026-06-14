@@ -1,9 +1,12 @@
 import React from 'react';
-import TeamGrid from "./components/TeamGrid"; 
-function App() {
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import TeamGrid from "./components/TeamGrid";
+import AdminLogin from "./pages/AdminLogin";
+import AdminDashboard from "./pages/AdminDashboard";
+// Separate component for the home page layout
+function HomePage() {
   return (
-    <div className="bg-black text-[#F5F1E6] min-h-screen">
-      {/* About Section */}
+    <>
       <section className="py-20 px-6 max-w-5xl mx-auto text-center">
         <h1 className="text-5xl font-serif text-[#C5A065] mb-6">LEGAL MATES FEDERATION</h1>
         <p className="text-lg italic mb-10">“United by Law, Driven by Purpose.”</p>
@@ -22,12 +25,26 @@ function App() {
 
       <TeamGrid />
 
-      {/* Footer Contact */}
       <footer className="py-10 border-t border-[#C5A065]/20 text-center">
         <p className="mb-2">For inquiries reach us at:</p>
         <a href="mailto:legalmatesfederation@gmail.com" className="text-[#C5A065] font-bold text-xl">legalmatesfederation@gmail.com</a>
       </footer>
-    </div>
+    </>
   );
 }
+
+function App() {
+  return (
+    <Router>
+      <div className="bg-black text-[#F5F1E6] min-h-screen">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/admin" element={<AdminLogin />} />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        </Routes>
+      </div>
+    </Router>
+  );
+}
+
 export default App;

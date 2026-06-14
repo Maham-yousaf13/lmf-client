@@ -1,5 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAwFsbZGJYHEnQ3bVx9BCY0lfcrrfLt61Y",
@@ -11,8 +13,9 @@ const firebaseConfig = {
   measurementId: "G-GRVZYTKZ3G"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
-// Database export karo taake hum isay Components mein use kar sakein
+// THESE ARE THE CRITICAL EXPORTS
 export const db = getFirestore(app);
+export const auth = getAuth(app);
