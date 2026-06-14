@@ -8,12 +8,15 @@ function AdminLogin() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  // Handles the admin authentication process
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
+      // Authenticate user with Firebase Auth
       await signInWithEmailAndPassword(auth, email, password);
       alert("Login Successful!");
-      // Login hone ke baad dashboard par bhej dega
+      
+      // Redirect to the admin dashboard upon successful login
       navigate("/admin-dashboard"); 
     } catch (error) {
       alert("Login Failed: " + error.message);
@@ -28,6 +31,7 @@ function AdminLogin() {
       >
         <h2 className="text-[#C5A065] text-2xl font-bold mb-6 text-center">Admin Login</h2>
         
+        {/* Email input field */}
         <input 
           type="email" 
           placeholder="Email" 
@@ -36,6 +40,7 @@ function AdminLogin() {
           required
         />
         
+        {/* Password input field */}
         <input 
           type="password" 
           placeholder="Password" 
@@ -44,6 +49,7 @@ function AdminLogin() {
           required
         />
         
+        {/* Login submission button */}
         <button 
           type="submit" 
           className="w-full bg-[#C5A065] py-3 font-bold text-black rounded hover:bg-[#b08d56] transition-all"
