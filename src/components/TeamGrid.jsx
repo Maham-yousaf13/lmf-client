@@ -39,15 +39,15 @@ function TeamGrid() {
           <p className="text-gray-400 text-sm font-semibold mb-3">{member.designation}</p>
           <p className="text-gray-500 text-sm mb-6 flex-grow">{member.about}</p>
           
-          {/* Instagram Link added here */}
-           <a 
-            href="https://ig.me/m/legalmatesfederation" 
+          {/* Updated link logic */}
+          <a 
+            href={member.instaLink || "https://ig.me/m/legalmatesfederation"} 
             target="_blank" 
             rel="noopener noreferrer"
             className="bg-[#C5A065] text-black px-6 py-2 rounded font-bold transition-all duration-200 ease-in-out hover:bg-[#b08d56] active:scale-95 active:bg-[#8b6e41] mt-auto block text-center"
-            >
+          >
             CONTACT
-            </a>
+          </a>
         </div>
       ))}
     </div>
