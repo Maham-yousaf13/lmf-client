@@ -1,6 +1,5 @@
 import React from 'react';
-import TeamGrid from './components/TeamGrid';
-
+import TeamGrid from "./components/TeamGrid"; 
 function App() {
   return (
     <div className="bg-black text-[#F5F1E6] min-h-screen">

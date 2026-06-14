@@ -1,36 +1,57 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useState } from "react";
+import { db } from "../firebaseConfig"; 
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
 
-const teamMembers = [
-  { id: 1, name: "CHAUDRY HAIDER SAHI", designation: "CHAIRMAN", img: "/haider.jpeg" },
-  { id: 2, name: "MALIK ABDUR REHMAN ILYAS", designation: "PRESIDENT", img: "/abdur.jpeg" },
-  { id: 3, name: "CHAUDRY TALHA DUGGAL", designation: "VICE PRESIDENT", img: "/talha.jpeg" },
-  { id: 4, name: "CHAUDRY ZAIN BHATTI", designation: "SOCIAL MEDIA HEAD", img: "/zain.jpeg" },
-  { id: 5, name: "AYTULLAH HASSAN GANTHER", designation: "GENERAL SECRETARY", img: "/aytullah.jpeg" },
-  { id: 6, name: "MUHAMMAD ALI GUJJAR", designation: "SECRETARY", img: "/ali.jpeg" },
-];
+function TeamGrid() {
+  const [team, setTeam] = useState([]);
 
-const TeamGrid = () => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const q = query(collection(db, "teamMembers"), orderBy("order", "asc"));
+        const querySnapshot = await getDocs(q);
+        const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setTeam(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
-    <section className="bg-black py-20 px-6">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-center font-serif text-5xl text-[#C5A065] mb-16">OUR LEADERSHIP</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-          {teamMembers.map((member) => (
-            <motion.div key={member.id} whileHover={{ y: -10 }} className="border border-[#C5A065]/30 p-2 rounded-xl bg-[#0f0f0f]">
-              <div className="overflow-hidden rounded-lg bg-black">
-                <img src={member.img} alt={member.name} className="w-full h-80 object-contain" />
-              </div>
-              <div className="p-6 text-center">
-                <h4 className="text-[#C5A065] font-serif text-xl">{member.name}</h4>
-                <p className="text-gray-300 text-sm mb-6">{member.designation}</p>
-                <a href="https://ig.me/m/legalmatesfederation" className="bg-[#C5A065] text-black font-bold py-2 px-8 rounded-full hover:bg-white transition-all">CONTACT</a>
-              </div>
-            </motion.div>
-          ))}
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-6 max-w-6xl mx-auto py-10">
+      {team.map((member) => (
+        <div 
+          key={member.id} 
+          className="bg-[#0f0f0f] border border-[#C5A065]/20 p-6 rounded-lg text-center hover:border-[#C5A065] transition-all duration-300 transform hover:-translate-y-2 flex flex-col"
+        >
+          {member.image && (
+            <div className="w-full h-80 mb-4 bg-[#0a0a0a] rounded-md overflow-hidden flex items-center justify-center">
+              <img 
+                src={member.image} 
+                alt={member.name} 
+                className="w-full h-full object-contain" 
+              />
+            </div>
+          )}
+          <h1 className="text-[#C5A065] text-xl font-bold mb-1">{member.name}</h1>
+          <p className="text-gray-400 text-sm font-semibold mb-3">{member.designation}</p>
+          <p className="text-gray-500 text-sm mb-6 flex-grow">{member.about}</p>
+          
+          {/* Instagram Link added here */}
+           <a 
+            href="https://ig.me/m/legalmatesfederation" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="bg-[#C5A065] text-black px-6 py-2 rounded font-bold transition-all duration-200 ease-in-out hover:bg-[#b08d56] active:scale-95 active:bg-[#8b6e41] mt-auto block text-center"
+            >
+            CONTACT
+            </a>
         </div>
-      </div>
-    </section>
+      ))}
+    </div>
   );
-};
+}
+
 export default TeamGrid;
