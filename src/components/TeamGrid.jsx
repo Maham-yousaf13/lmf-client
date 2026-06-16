@@ -4,6 +4,7 @@ import { collection, getDocs, query, orderBy } from "firebase/firestore";
 
 export default function TeamGrid() {
   const [team, setTeam] = useState([]);
+  const [loading, setLoading] = useState(true); // Loading state added
 
   // Fetch team members from Firestore on component mount
   useEffect(() => {
@@ -21,10 +22,21 @@ export default function TeamGrid() {
         setTeam(data);
       } catch (err) {
         console.error("Error fetching team members:", err);
+      } finally {
+        setLoading(false); // Disable loading once data is fetched
       }
     }
     fetchData();
   }, []);
+
+  // Show a professional spinner while data is being fetched
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#C5A065]"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-10 max-w-6xl mx-auto">
